@@ -30,49 +30,35 @@ app.post("/level1", async (req, res) => {
   let prompt = `
   Generate 4 questions for a language learning game that takes place at a ${theme}, where the target language is ${targetLanguage} and the difficulty level is ${difficulty}. The scenario is presented in English and should involve a common situation. The answer choices should be three common nouns, one of which is the correct answer.
   Using this JSON schema:
-  { "type": "object",
-    "properties": {
-        "scenario": { "type": "string" },
-        "answer_choices": { "type": ["string"] },
-        "correct_answer": { "type": "string" },
-        "correct_answer_english": { "type": "string" },
-    }
-  }`;
-  let result = await model.generateContent(prompt)
-  res.json({ response: result.response.text() })
+      Question = {"scenario": "string", "answer_choices": ["string"], "correct_answer": "string", "correct_answer_english": "string"}
+  Return a list[Question]
+  `;
+  let result = await model.generateContent(prompt);
+  res.json({ response: result.response.text() });
 });
 
 app.post("/level2", async (req, res) => {
-    const { theme, targetLanguage, difficulty } = req.body;
-    let prompt = `
+  const { theme, targetLanguage, difficulty } = req.body;
+  let prompt = `
     Generate 4 questions for a language learning game that takes place at a ${theme}, where the target language is ${targetLanguage} and the difficulty level is ${difficulty}. The question should ask to spell a common English word in ${targetLanguage}.
     Using this JSON schema:
-    { "type": "object",
-      "properties": {
-          "scenario": { "type": "string" },
-          "correct_answer": { "type": "string" },
-          "correct_answer_english": { "type": "string" },
-      }
-    }`;
-    let result = await model.generateContent(prompt)
-    res.json({ response: result.response.text() })
+      Question = {"scenario": "string", "correct_answer": "string", "correct_answer_english": "string"}
+  Return a list[Question]
+    `;
+  let result = await model.generateContent(prompt);
+  res.json({ response: result.response.text() });
 });
 
 app.post("/level3", async (req, res) => {
-    const { theme, targetLanguage, difficulty } = req.body;
-    let prompt = `
+  const { theme, targetLanguage, difficulty } = req.body;
+  let prompt = `
     Generate 4 questions for a language learning game that takes place at a ${theme}, where the target language is ${targetLanguage} and the difficulty level is ${difficulty}. The scenario is presented in ${targetLanguage} should be a sentence involving a common situation, where one of the nouns in the sentence is blank. The answer choices should be three common nouns, one of which is the correct answer.
     Using this JSON schema:
-    { "type": "object",
-      "properties": {
-          "scenario": { "type": "string" },
-          "answer_choices": { "type": ["string"] },
-          "correct_answer": { "type": "string" },
-          "correct_answer_english": { "type": "string" },
-      }
-    }`;
-    let result = await model.generateContent(prompt)
-    res.json({ response: result.response.text() })
+      Question = {"scenario": "string", "answer_choices": ["string"], "correct_answer": "string", "correct_answer_english": "string"}
+  Return a list[Question]
+    `;
+  let result = await model.generateContent(prompt);
+  res.json({ response: result.response.text() });
 });
 
 app.listen(port, () => {
