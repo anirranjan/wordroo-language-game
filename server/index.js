@@ -30,11 +30,24 @@ app.post("/schoollevel1", async (req, res) => {
   let prompt = `
   Generate 5 questions for a language learning game that takes place at a school, where the target language is ${targetLanguage} and the first two questions are easy, the next two questions are medium, and the last question is hard. The scenario is presented in English and should involve a common situation. The answer choices should be three common nouns, one of which is the correct answer.
   Using this JSON schema:
-      Question = {"scenario": "string", "answer_choices": ["string"], "correct_answer": "string", "correct_answer_english": "string"}
-  Return a list[Question]
-  `;
+  {
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "scenario": { "type": "string" },
+      "answer_choices": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "correct_answer": { "type": "string" },
+      "correct_answer_english": { "type": "string" }
+    },
+    "required": ["scenario", "answer_choices", "correct_answer", "correct_answer_english"]
+  }
+}`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/schoollevel2", async (req, res) => {
@@ -46,7 +59,7 @@ app.post("/schoollevel2", async (req, res) => {
   Return a list[Question]
     `;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/schoollevel3", async (req, res) => {
@@ -58,7 +71,7 @@ app.post("/schoollevel3", async (req, res) => {
   Return a list[Question]
     `;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/schoollevel4", async (req, res) => {
@@ -70,7 +83,7 @@ app.post("/schoollevel4", async (req, res) => {
   Return a list[Question]
     `;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/grocerylevel5", async (req, res) => {
@@ -80,7 +93,7 @@ app.post("/grocerylevel5", async (req, res) => {
         Question = {{"scenario": "string", "correct_answer": "string", "correct_answer_english": "string"}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/grocerylevel6", async (req, res) => {
@@ -90,7 +103,7 @@ app.post("/grocerylevel6", async (req, res) => {
         Question = {{"scenario": "string", "answer_choices": ["string"], "correct_answer": "string", "correct_answer_english": "string"}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/grocerylevel7", async (req, res) => {
@@ -100,7 +113,7 @@ app.post("/grocerylevel7", async (req, res) => {
         Question = {{"scenario": "string", "answer_choices": ["string"], "correct_answer": "string", "correct_answer_english": "string"}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/grocerylevel8", async (req, res) => {
@@ -110,7 +123,7 @@ app.post("/grocerylevel8", async (req, res) => {
         Question = {{"scenario": "string", "correct_answer": "string", "correct_answer_english": "string"}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/bakerylevel9", async (req, res) => {
@@ -120,7 +133,7 @@ app.post("/bakerylevel9", async (req, res) => {
         Question = {{"scenario": str, "answer_choices": list[str], "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/bakerylevel10", async (req, res) => {
@@ -130,7 +143,7 @@ app.post("/bakerylevel10", async (req, res) => {
         Question = {{"scenario": str, "answer_choices": list[str], "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/bakerylevel11", async (req, res) => {
@@ -140,7 +153,7 @@ app.post("/bakerylevel11", async (req, res) => {
         Question = {{"scenario": str, "answer_choices": list[str], "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/bakerylevel12", async (req, res) => {
@@ -150,7 +163,7 @@ app.post("/bakerylevel12", async (req, res) => {
         Question = {{"scenario": str, "answer_choices": list[str], "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/beachlevel13", async (req, res) => {
@@ -160,7 +173,7 @@ app.post("/beachlevel13", async (req, res) => {
         Question = {{"scenario": str, "answer_choices": list[str], "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/beachlevel14", async (req, res) => {
@@ -170,7 +183,7 @@ app.post("/beachlevel14", async (req, res) => {
         Question = {{"scenario": str, "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/beachlevel15", async (req, res) => {
@@ -180,7 +193,7 @@ app.post("/beachlevel15", async (req, res) => {
         Question = {{"scenario": str, "answer_choices": list[str], "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.post("/beachlevel16", async (req, res) => {
@@ -190,7 +203,7 @@ app.post("/beachlevel16", async (req, res) => {
         Question = {{"scenario": str, "answer_choices": list[str], "correct_answer": str, "correct_answer_english": str}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
-  res.json({ response: result.response.text() });
+  res.json(result.response.text());
 });
 
 app.listen(port, () => {
