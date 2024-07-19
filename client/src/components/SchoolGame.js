@@ -38,7 +38,7 @@ const SchoolGame = () => {
   return (
     <Box p={8}>
       <Heading size="2xl">School</Heading>
-      <Image boxSize='200px' src={introImg} alt='School Intro'/>
+      <Image boxSize='800px' src={introImg} alt='School Intro'/>
       <Text>
         Hi, I'm Bill. Today's my first day at my new school and I don't know
         Spanish very well. Can you help me find my new friends?

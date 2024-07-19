@@ -9,6 +9,10 @@ import {
   Fade,
   Center,
   Input,
+  FormControl,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
 import startImage from "../SchoolTheme/languageschool-start.png";
 import image1 from "../SchoolTheme/languageschool-1.png";
@@ -37,6 +41,9 @@ const GameBoard = () => {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showQuestion, setShowQuestion] = useState(true);
+  const [answer, setAnswer] = useState("");
+  const [fillAnswer, setFillAnswer] = useState("");
+
   const images = [
     startImage,
     image1,
@@ -61,6 +68,8 @@ const GameBoard = () => {
   ];
 
   const handleNextQuestion = () => {
+    setAnswer("")
+    setFillAnswer("")
     setShowQuestion(false);
     setTimeout(() => {
       if (currentQuestionIndex < questions.length - 1) {
@@ -70,27 +79,69 @@ const GameBoard = () => {
     }, 500); // Adjust the timeout to match your desired transition duration
   };
 
+  const handleMCSubmit = (e) => {
+    e.preventDefault();
+    if (answer === currentQuestion.correct_answer) {
+      console.log("Correct answer");
+      handleNextQuestion();
+    } else {
+      console.log("Incorrect answer");
+    }
+  };
+  
+  const handleShortSubmit = (e) => {
+    e.preventDefault();
+    if(fillAnswer.toLowerCase() === currentQuestion.correct_answer) {
+        console.log("Correct answer");
+        handleNextQuestion();
+    } else {
+        console.log(currentQuestion.correct_answer);
+    }
+  }
   const renderQuestion = () => {
     if (currentQuestionIndex < 5) {
       return (
-        <ul>
-          {currentQuestion.answer_choices.map((choice, index) => (
-            <li key={index}>{choice}</li>
-          ))}
-        </ul>
+        <FormControl as="form" onSubmit={handleMCSubmit}>
+          <RadioGroup onChange={setAnswer} value={answer}>
+            <Stack>
+              {currentQuestion.answer_choices.map((choice, index) => (
+                <Radio key={index} value={choice}>
+                  {choice}
+                </Radio>
+              ))}
+            </Stack>
+          </RadioGroup>
+          <Button type="submit">Submit Answer</Button>
+        </FormControl>
       );
     } else if (currentQuestionIndex < 10) {
-      return <Input placeholder="Your answer" />;
+      return (
+        <FormControl as="form" onSubmit={handleShortSubmit}>
+            <Input placeholder="Your answer" value={fillAnswer} onChange={(e) => setFillAnswer(e.target.value)} />
+            <Button type="submit">Submit Answer</Button>
+        </FormControl>
+      )
     } else {
       return (
-        <Box>
-          <Input placeholder="Your answer" mb={4} />
-          <ul>
-            {currentQuestion.answer_choices.map((choice, index) => (
-              <li key={index}>{choice}</li>
-            ))}
-          </ul>
-        </Box>
+        <FormControl as="form" onSubmit={handleShortSubmit}>
+            <Stack>
+                {currentQuestion.answer_choices.map((choice, index) => (
+                    <Text key={index}>
+                        {choice}
+                    </Text>
+                ))}
+            </Stack>
+            <Input placeholder="Your answer" value={fillAnswer} onChange={(e) => setFillAnswer(e.target.value)} />
+            <Button type="submit">Submit Answer</Button>
+        </FormControl>
+        // <Box>
+        //   <Input placeholder="Your answer" mb={4} />
+        //   <ul>
+        //     {currentQuestion.answer_choices.map((choice, index) => (
+        //       <li key={index}>{choice}</li>
+        //     ))}
+        //   </ul>
+        // </Box>
       );
     }
   };
@@ -127,7 +178,7 @@ const GameBoard = () => {
             {renderQuestion()}
           </Box>
         </Fade>
-        <Button
+        {/* <Button
           colorScheme="blue"
           size="md"
           onClick={handleNextQuestion}
@@ -138,7 +189,7 @@ const GameBoard = () => {
           zIndex="2"
         >
           Next Question
-        </Button>
+        </Button> */}
       </Box>
     </Center>
   );
