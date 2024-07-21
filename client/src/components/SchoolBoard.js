@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   Image,
@@ -34,15 +34,19 @@ import image16 from "../SchoolTheme/languageschool-16.png";
 import image17 from "../SchoolTheme/languageschool-17.png";
 import image18 from "../SchoolTheme/languageschool-18.png";
 import image19 from "../SchoolTheme/languageschool-19.png";
+import winImage from "../SchoolTheme/languageschool-20.png";
 
-const GameBoard = () => {
+const SchoolBoard = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { questions } = location.state || {};
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showQuestion, setShowQuestion] = useState(true);
+  const [gameFinished, setGameFinished] = useState(false);
   const [answer, setAnswer] = useState("");
   const [fillAnswer, setFillAnswer] = useState("");
+  const [answerIncorrect, setAnswerIncorrect] = useState(false);
 
   const images = [
     startImage,
@@ -68,15 +72,20 @@ const GameBoard = () => {
   ];
 
   const handleNextQuestion = () => {
-    setAnswer("")
-    setFillAnswer("")
+    setAnswer("");
+    setFillAnswer("");
     setShowQuestion(false);
     setTimeout(() => {
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        setGameFinished(true);
       }
-      setShowQuestion(true);
-    }, 500); // Adjust the timeout to match your desired transition duration
+
+      setTimeout(() => {
+        gameFinished ? navigate('/schoolwin') : setShowQuestion(true)
+      }, 500);
+    }, 1000);
   };
 
   const handleMCSubmit = (e) => {
@@ -86,18 +95,26 @@ const GameBoard = () => {
       handleNextQuestion();
     } else {
       console.log("Incorrect answer");
+      setAnswerIncorrect(true);
+      setTimeout(() => {
+        navigate('/schoollose')
+      }, 2000)
     }
   };
-  
+
   const handleShortSubmit = (e) => {
     e.preventDefault();
-    if(fillAnswer.toLowerCase() === currentQuestion.correct_answer) {
-        console.log("Correct answer");
-        handleNextQuestion();
+    if (fillAnswer.toLowerCase() === currentQuestion.correct_answer) {
+      console.log("Correct answer");
+      handleNextQuestion();
     } else {
-        console.log(currentQuestion.correct_answer);
+      console.log(currentQuestion.correct_answer);
+      setAnswerIncorrect(true);
+      setTimeout(() => {
+        navigate('/schoollose')
+      }, 2000)
     }
-  }
+  };
   const renderQuestion = () => {
     if (currentQuestionIndex < 5) {
       return (
@@ -117,37 +134,35 @@ const GameBoard = () => {
     } else if (currentQuestionIndex < 10) {
       return (
         <FormControl as="form" onSubmit={handleShortSubmit}>
-            <Input placeholder="Your answer" value={fillAnswer} onChange={(e) => setFillAnswer(e.target.value)} />
-            <Button type="submit">Submit Answer</Button>
+          <Input
+            placeholder="Your answer"
+            value={fillAnswer}
+            onChange={(e) => setFillAnswer(e.target.value)}
+          />
+          <Button type="submit">Submit Answer</Button>
         </FormControl>
-      )
+      );
     } else {
       return (
         <FormControl as="form" onSubmit={handleShortSubmit}>
-            <Stack>
-                {currentQuestion.answer_choices.map((choice, index) => (
-                    <Text key={index}>
-                        {choice}
-                    </Text>
-                ))}
-            </Stack>
-            <Input placeholder="Your answer" value={fillAnswer} onChange={(e) => setFillAnswer(e.target.value)} />
-            <Button type="submit">Submit Answer</Button>
+          <Stack>
+            {currentQuestion.answer_choices.map((choice, index) => (
+              <Text key={index}>{choice}</Text>
+            ))}
+          </Stack>
+          <Input
+            placeholder="Your answer"
+            value={fillAnswer}
+            onChange={(e) => setFillAnswer(e.target.value)}
+          />
+          <Button type="submit">Submit Answer</Button>
         </FormControl>
-        // <Box>
-        //   <Input placeholder="Your answer" mb={4} />
-        //   <ul>
-        //     {currentQuestion.answer_choices.map((choice, index) => (
-        //       <li key={index}>{choice}</li>
-        //     ))}
-        //   </ul>
-        // </Box>
       );
     }
   };
 
   const currentQuestion = questions[currentQuestionIndex];
-  const currentImage = images[currentQuestionIndex];
+  const currentImage = gameFinished ? winImage : images[currentQuestionIndex];
 
   return (
     <Center h="100vh">
@@ -158,41 +173,75 @@ const GameBoard = () => {
           objectFit="cover"
           transition="opacity 0.5s ease-in-out"
         />
-        <Fade in={showQuestion}>
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"
-            bg="rgba(0, 0, 0, 0.6)"
-            color="white"
-            p={20}
-            borderRadius="md"
-            zIndex="1"
-            textAlign="center"
-          >
-            <Heading size="2xl" mb={4}>
-              Question {currentQuestionIndex + 1}
-            </Heading>
-            <Text mb={4}>{currentQuestion.scenario}</Text>
-            {renderQuestion()}
-          </Box>
-        </Fade>
-        {/* <Button
-          colorScheme="blue"
-          size="md"
-          onClick={handleNextQuestion}
-          position="absolute"
-          bottom="20px"
-          left="50%"
-          transform="translateX(-50%)"
-          zIndex="2"
-        >
-          Next Question
-        </Button> */}
+        {gameFinished ? (
+          <Fade in={true}>
+            <Box
+              position="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+              bg="rgba(0, 0, 0, 0.6)"
+              color="white"
+              p={20}
+              borderRadius="md"
+              zIndex="1"
+              textAlign="center"
+            >
+              <Heading size="2xl" mb={4}>
+                Congratulations!
+              </Heading>
+              <Text mb={4}>
+                Thank you for helping me find my friends on the playground!
+              </Text>
+            </Box>
+          </Fade>
+        ) : answerIncorrect ? (
+          <Fade in="true">
+            <Box
+              position="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+              bg="rgba(0, 0, 0, 0.6)"
+              color="white"
+              p={20}
+              borderRadius="md"
+              zIndex="1"
+              textAlign="center"
+            >
+              <Heading size="2xl" mb={4}>
+                Incorrect!
+              </Heading>
+              <Text mb={4}>
+                The correct answer is {currentQuestion.correct_answer}.
+              </Text>
+            </Box>
+          </Fade>
+        ) : (
+          <Fade in={showQuestion}>
+            <Box
+              position="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+              bg="rgba(0, 0, 0, 0.6)"
+              color="white"
+              p={20}
+              borderRadius="md"
+              zIndex="1"
+              textAlign="center"
+            >
+              <Heading size="2xl" mb={4}>
+                Question {currentQuestionIndex + 1}
+              </Heading>
+              <Text mb={4}>{currentQuestion.scenario}</Text>
+              {renderQuestion()}
+            </Box>
+          </Fade>
+        )}
       </Box>
     </Center>
   );
 };
 
-export default GameBoard;
+export default SchoolBoard;

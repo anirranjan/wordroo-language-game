@@ -1,5 +1,7 @@
 import SchoolGame from "./components/SchoolGame";
-import GameBoard from "./components/Gameboard";
+import SchoolBoard from "./components/SchoolBoard";
+import SchoolWin from "./components/SchoolWin";
+import SchoolLose from "./components/SchoolLose";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -9,7 +11,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<SchoolGame/>}/>
-          <Route path='/gameboard' element={<GameBoard/>}/>
+          <Route path='/schoolboard' element={<SchoolBoard/>}/>
+          <Route path='/schoolwin' element={<SchoolWin/>}/>
+          <Route path='/schoollose' element={<SchoolLose/>}/>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
