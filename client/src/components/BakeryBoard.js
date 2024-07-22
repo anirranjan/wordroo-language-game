@@ -80,10 +80,13 @@ const BakeryBoard = () => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
         setGameFinished(true);
+        setTimeout(() => {
+          navigate("/bakerywin");
+        }, 2000);
       }
 
       setTimeout(() => {
-        gameFinished ? navigate("/bakerywin") : setShowQuestion(true);
+        setShowQuestion(true);
       }, 500);
     }, 1000);
   };

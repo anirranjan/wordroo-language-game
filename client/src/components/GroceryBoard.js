@@ -80,10 +80,13 @@ const GroceryBoard = () => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
         setGameFinished(true);
+        setTimeout(() => {
+          navigate("/storewin");
+        }, 2000);
       }
 
       setTimeout(() => {
-        gameFinished ? navigate("/storewin") : setShowQuestion(true);
+        setShowQuestion(true);
       }, 500);
     }, 1000);
   };

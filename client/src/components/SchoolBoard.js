@@ -80,10 +80,13 @@ const SchoolBoard = () => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
         setGameFinished(true);
+        setTimeout(() => {
+          navigate("/schoolwin");
+        }, 2000);
       }
 
       setTimeout(() => {
-        gameFinished ? navigate('/schoolwin') : setShowQuestion(true)
+        setShowQuestion(true);
       }, 500);
     }, 1000);
   };
@@ -97,22 +100,25 @@ const SchoolBoard = () => {
       console.log("Incorrect answer");
       setAnswerIncorrect(true);
       setTimeout(() => {
-        navigate('/schoollose')
-      }, 2000)
+        navigate("/schoollose");
+      }, 2000);
     }
   };
 
   const handleShortSubmit = (e) => {
     e.preventDefault();
-    if (fillAnswer.trim().toLowerCase() === currentQuestion.correct_answer.trim().toLowerCase()) {
+    if (
+      fillAnswer.trim().toLowerCase() ===
+      currentQuestion.correct_answer.trim().toLowerCase()
+    ) {
       console.log("Correct answer");
       handleNextQuestion();
     } else {
       console.log(currentQuestion.correct_answer);
       setAnswerIncorrect(true);
       setTimeout(() => {
-        navigate('/schoollose')
-      }, 2000)
+        navigate("/schoollose");
+      }, 2000);
     }
   };
   const renderQuestion = () => {
