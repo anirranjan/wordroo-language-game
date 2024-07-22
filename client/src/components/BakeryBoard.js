@@ -14,29 +14,29 @@ import {
   RadioGroup,
   Stack,
 } from "@chakra-ui/react";
-import startImage from "../GroceryStoreTheme/languagestorestart.png";
-import image1 from "../GroceryStoreTheme/languagestore1.png";
-import image2 from "../GroceryStoreTheme/languagestore2.png";
-import image3 from "../GroceryStoreTheme/languagestore3.png";
-import image4 from "../GroceryStoreTheme/languagestore4.png";
-import image5 from "../GroceryStoreTheme/languagestore5.png";
-import image6 from "../GroceryStoreTheme/languagestore6.png";
-import image7 from "../GroceryStoreTheme/languagestore7.png";
-import image8 from "../GroceryStoreTheme/languagestore8.png";
-import image9 from "../GroceryStoreTheme/languagestore9.png";
-import image10 from "../GroceryStoreTheme/languagestore10.png";
-import image11 from "../GroceryStoreTheme/languagestore11.png";
-import image12 from "../GroceryStoreTheme/languagestore12.png";
-import image13 from "../GroceryStoreTheme/languagestore13.png";
-import image14 from "../GroceryStoreTheme/languagestore14.png";
-import image15 from "../GroceryStoreTheme/languagestore15.png";
-import image16 from "../GroceryStoreTheme/languagestore16.png";
-import image17 from "../GroceryStoreTheme/languagestore17.png";
-import image18 from "../GroceryStoreTheme/languagestore18.png";
-import image19 from "../GroceryStoreTheme/languagestore19.png";
-import winImage from "../GroceryStoreTheme/languagestore20.png";
+import startImage from "../BakeryTheme/languagebakery-start.png";
+import image1 from "../BakeryTheme/languagebakery-1.png";
+import image2 from "../BakeryTheme/languagebakery-2.png";
+import image3 from "../BakeryTheme/languagebakery-3.png";
+import image4 from "../BakeryTheme/languagebakery-4.png";
+import image5 from "../BakeryTheme/languagebakery-5.png";
+import image6 from "../BakeryTheme/languagebakery-6.png";
+import image7 from "../BakeryTheme/languagebakery-7.png";
+import image8 from "../BakeryTheme/languagebakery-8.png";
+import image9 from "../BakeryTheme/languagebakery-9.png";
+import image10 from "../BakeryTheme/languagebakery-10.png";
+import image11 from "../BakeryTheme/languagebakery-11.png";
+import image12 from "../BakeryTheme/languagebakery-12.png";
+import image13 from "../BakeryTheme/languagebakery-13.png";
+import image14 from "../BakeryTheme/languagebakery-14.png";
+import image15 from "../BakeryTheme/languagebakery-15.png";
+import image16 from "../BakeryTheme/languagebakery-16.png";
+import image17 from "../BakeryTheme/languagebakery-17.png";
+import image18 from "../BakeryTheme/languagebakery-18.png";
+import image19 from "../BakeryTheme/languagebakery-19.png";
+import winImage from "../BakeryTheme/languagebakery-20.png";
 
-const GroceryBoard = () => {
+const BakeryBoard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { questions } = location.state || {};
@@ -83,7 +83,7 @@ const GroceryBoard = () => {
       }
 
       setTimeout(() => {
-        gameFinished ? navigate("/storewin") : setShowQuestion(true);
+        gameFinished ? navigate("/bakerywin") : setShowQuestion(true);
       }, 500);
     }, 1000);
   };
@@ -97,37 +97,29 @@ const GroceryBoard = () => {
       console.log("Incorrect answer");
       setAnswerIncorrect(true);
       setTimeout(() => {
-        navigate("/storelose");
+        navigate("/bakerylose");
       }, 2000);
     }
   };
 
   const handleShortSubmit = (e) => {
     e.preventDefault();
-    if (fillAnswer.trim().toLowerCase() === currentQuestion.correct_answer.trim().toLowerCase()) {
+    if (
+      fillAnswer.trim().toLowerCase() ===
+      currentQuestion.correct_answer.trim().toLowerCase()
+    ) {
       console.log("Correct answer");
       handleNextQuestion();
     } else {
       console.log(currentQuestion.correct_answer);
       setAnswerIncorrect(true);
       setTimeout(() => {
-        navigate("/storelose");
+        navigate("/bakerylose");
       }, 2000);
     }
   };
   const renderQuestion = () => {
     if (currentQuestionIndex < 5) {
-      return (
-        <FormControl as="form" onSubmit={handleShortSubmit}>
-          <Input
-            placeholder="Your answer"
-            value={fillAnswer}
-            onChange={(e) => setFillAnswer(e.target.value)}
-          />
-          <Button type="submit">Submit Answer</Button>
-        </FormControl>
-      );
-    } else if (currentQuestionIndex < 10) {
       return (
         <FormControl as="form" onSubmit={handleMCSubmit}>
           <RadioGroup onChange={setAnswer} value={answer}>
@@ -139,6 +131,22 @@ const GroceryBoard = () => {
               ))}
             </Stack>
           </RadioGroup>
+          <Button type="submit">Submit Answer</Button>
+        </FormControl>
+      );
+    } else if (currentQuestionIndex < 10) {
+      return (
+        <FormControl as="form" onSubmit={handleShortSubmit}>
+          <Stack>
+            {currentQuestion.answer_choices.map((choice, index) => (
+              <Text key={index}>{choice}</Text>
+            ))}
+          </Stack>
+          <Input
+            placeholder="Your answer"
+            value={fillAnswer}
+            onChange={(e) => setFillAnswer(e.target.value)}
+          />
           <Button type="submit">Submit Answer</Button>
         </FormControl>
       );
@@ -160,12 +168,16 @@ const GroceryBoard = () => {
       );
     } else {
       return (
-        <FormControl as="form" onSubmit={handleShortSubmit}>
-          <Input
-            placeholder="Your answer"
-            value={fillAnswer}
-            onChange={(e) => setFillAnswer(e.target.value)}
-          />
+        <FormControl as="form" onSubmit={handleMCSubmit}>
+          <RadioGroup onChange={setAnswer} value={answer}>
+            <Stack>
+              {currentQuestion.answer_choices.map((choice, index) => (
+                <Radio key={index} value={choice}>
+                  {choice}
+                </Radio>
+              ))}
+            </Stack>
+          </RadioGroup>
           <Button type="submit">Submit Answer</Button>
         </FormControl>
       );
@@ -202,7 +214,7 @@ const GroceryBoard = () => {
                 Congratulations!
               </Heading>
               <Text mb={4}>
-                Thank you for helping me find my groceries!
+                Thank you for helping me find my new customers!
               </Text>
             </Box>
           </Fade>
@@ -255,4 +267,4 @@ const GroceryBoard = () => {
   );
 };
 
-export default GroceryBoard;
+export default BakeryBoard;

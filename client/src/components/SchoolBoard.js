@@ -213,7 +213,7 @@ const SchoolBoard = () => {
                 Incorrect!
               </Heading>
               <Text mb={4}>
-                The correct answer is {currentQuestion.correct_answer}.
+                The correct answer is {currentQuestion.correct_answer}
               </Text>
             </Box>
           </Fade>
