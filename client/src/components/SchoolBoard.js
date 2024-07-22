@@ -104,7 +104,7 @@ const SchoolBoard = () => {
 
   const handleShortSubmit = (e) => {
     e.preventDefault();
-    if (fillAnswer.toLowerCase() === currentQuestion.correct_answer) {
+    if (fillAnswer.trim().toLowerCase() === currentQuestion.correct_answer.trim().toLowerCase()) {
       console.log("Correct answer");
       handleNextQuestion();
     } else {
