@@ -10,6 +10,10 @@ import BakeryGame from "./components/BakeryGame";
 import BakeryBoard from "./components/BakeryBoard";
 import BakeryWin from "./components/BakeryWin";
 import BakeryLose from "./components/BakeryLose";
+import BeachGame from "./components/BeachGame";
+import BeachBoard from "./components/BeachBoard";
+import BeachWin from "./components/BeachWin";
+import BeachLose from "./components/BeachLose";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -30,6 +34,10 @@ function App() {
           <Route path='/bakeryboard' element={<BakeryBoard/>}/>
           <Route path='/bakerywin' element={<BakeryWin/>}/>
           <Route path='/bakerylose' element={<BakeryLose/>}/>
+          <Route path='/beachgame' element={<BeachGame/>}/>
+          <Route path='/beachboard' element={<BeachBoard/>}/>
+          <Route path='/beachwin' element={<BeachWin/>}/>
+          <Route path='/beachlose' element={<BeachLose/>}/>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
