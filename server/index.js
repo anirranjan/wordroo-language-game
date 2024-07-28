@@ -25,6 +25,13 @@ let model = genAI.getGenerativeModel({
   generationConfig: generation_config,
 });
 
+app.post("/getLocation", async (req, res) => {
+  const { targetLanguage } = req.body;
+  let prompt = `Can you tell me one country that speaks ${targetLanguage}? Return as a single string.`
+  let result = await model.generateContent(prompt)
+  res.json(result.response.text())
+})
+
 app.post("/schoollevel1", async (req, res) => {
   const { targetLanguage } = req.body;
   let prompt = `

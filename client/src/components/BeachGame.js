@@ -1,10 +1,10 @@
 import axios from "axios";
-import introImg from "../SchoolTheme/1 School Intro.jpeg";
+import introImg from "../BeachTheme/1 Beach Intro.jpeg";
 import { Text, Image, Button, Box, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const SchoolGame = () => {
+const BeachGame = () => {
   const navigate = useNavigate();
   const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,30 +20,27 @@ const SchoolGame = () => {
       });
   }, []);
 
-  const getSchoolQuestions = async (level) => {
+  const getBeachQuestions = async (level) => {
     try {
-      const res = await axios.post(
-        `http://localhost:3001/schoollevel${level}`,
-        {
-          targetLanguage: "Spanish",
-        }
-      );
+      const res = await axios.post(`http://localhost:3001/beachlevel${level}`, {
+        targetLanguage: "Spanish",
+      });
       //console.log(typeof res.data)
       const responseData = JSON.parse(res.data);
       console.log(responseData);
       return responseData;
     } catch (error) {
-      console.error("getSchoolQuestions | Error:", error);
+      console.error("getBeachQuestions | Error:", error);
     }
   };
 
   const getAllQuestions = async () => {
     setLoading(true);
     try {
-      const level1Questions = await getSchoolQuestions(1);
-      const level2Questions = await getSchoolQuestions(2);
-      const level3Questions = await getSchoolQuestions(3);
-      const level4Questions = await getSchoolQuestions(4);
+      const level1Questions = await getBeachQuestions(13);
+      const level2Questions = await getBeachQuestions(14);
+      const level3Questions = await getBeachQuestions(15);
+      const level4Questions = await getBeachQuestions(16);
 
       const allQuestions = [
         ...level1Questions,
@@ -51,7 +48,7 @@ const SchoolGame = () => {
         ...level3Questions,
         ...level4Questions,
       ];
-      navigate("/schoolboard", { state: { questions: allQuestions } });
+      navigate("/beachboard", { state: { questions: allQuestions } });
     } catch (error) {
       console.error("getAllQuestions | Error:", error);
     }
@@ -60,7 +57,7 @@ const SchoolGame = () => {
   return (
     <Center h="100vh">
       <Box position="relative">
-        <Image src={introImg} alt="School Intro" boxSize="1000px" />
+        <Image src={introImg} alt="Beach Intro" boxSize="1000px" />
         <Box
           position="absolute"
           top="0%"
@@ -75,9 +72,10 @@ const SchoolGame = () => {
           width="100%"
         >
           <Text>
-            Hey guys! My name is Rusty, the fox. My family and I recently moved
-            to {country} and today is my first day at school! Can you help me
-            speak Spanish so that I can make friends at my new school?
+            Surfs Up! Disco, the Panda, here. I love the beach so I took a
+            spontaneous flight to {country} for a weekend vacation. I
+            want to meet some party animals. Help me speak Spanish so
+            I can meet my people?
           </Text>
         </Box>
         <Box
@@ -101,4 +99,4 @@ const SchoolGame = () => {
   );
 };
 
-export default SchoolGame;
+export default BeachGame;
