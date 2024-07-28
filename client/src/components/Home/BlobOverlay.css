@@ -1,0 +1,190 @@
+.line-overlay-1,
+.line-overlay-2 {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.line-overlay-1 {
+  background: linear-gradient(to top right, #fd5901 50%, transparent 50%);
+}
+
+.line-overlay-2 {
+  background: linear-gradient(to top left, #f78104 50%, transparent 50%);
+}
+
+.triangle {
+  width: 100vw;
+  height: 50vh;
+  background: #faab36;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.word-1 {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(850%, -80%) rotate(10deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-2 {
+  position: fixed;
+  top: 20%;
+  left: 60%;
+  transform: translate(850%, -80%) rotate(-10deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-3 {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(650%, -100%) rotate(-20deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-4 {
+  position: fixed;
+  top: 45%;
+  left: 60%;
+  transform: translate(600%, 30%) rotate(20deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-5 {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(1630%, 80%) rotate(30deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-6 {
+  position: fixed;
+  top: 50%;
+  left: 60%;
+  transform: translate(660%, 340%) rotate(-30deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-7 {
+  position: fixed;
+  top: 75%;
+  left: 50%;
+  transform: translate(600%, 200%) rotate(-40deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-8 {
+  position: fixed;
+  top: 65%;
+  left: 60%;
+  transform: translate(1650%, 300%) rotate(40deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-9 {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-1320%, -80%) rotate(-10deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-10 {
+  position: fixed;
+  top: 20%;
+  left: 40%;
+  transform: translate(-520%, -80%) rotate(10deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-11 {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-550%, 10%) rotate(20deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-12 {
+  position: fixed;
+  top: 35%;
+  left: 40%;
+  transform: translate(-900%, 60%) rotate(-20deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-13 {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-1050%, 60%) rotate(-30deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-14 {
+  position: fixed;
+  top: 50%;
+  left: 40%;
+  transform: translate(-950%, 200%) rotate(30deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-15 {
+  position: fixed;
+  top: 75%;
+  left: 50%;
+  transform: translate(-700%, 80%) rotate(40deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-16 {
+  position: fixed;
+  top: 65%;
+  left: 40%;
+  transform: translate(-550%, 400%) rotate(-40deg);
+  color: #008083;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.word-container {
+  font-family: "Arial", "Noto Sans", sans-serif;
+}
