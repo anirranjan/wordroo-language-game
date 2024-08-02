@@ -13,6 +13,11 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Grid,
+  GridItem,
+  Stat,
+  StatLabel,
+  StatNumber,
 } from "@chakra-ui/react";
 import startImage from "../SchoolTheme/languageschool-start.png";
 import image1 from "../SchoolTheme/languageschool-1.png";
@@ -76,7 +81,7 @@ const SchoolBoard = () => {
     setFillAnswer("");
     setShowQuestion(false);
     setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
+      if (currentQuestionIndex < (questions?.length || 0) - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
         setGameFinished(true);
@@ -93,6 +98,7 @@ const SchoolBoard = () => {
 
   const handleMCSubmit = (e) => {
     e.preventDefault();
+    const currentQuestion = questions[currentQuestionIndex];
     if (answer === currentQuestion.correct_answer) {
       console.log("Correct answer");
       handleNextQuestion();
@@ -107,6 +113,7 @@ const SchoolBoard = () => {
 
   const handleShortSubmit = (e) => {
     e.preventDefault();
+    const currentQuestion = questions[currentQuestionIndex];
     if (
       fillAnswer.trim().toLowerCase() ===
       currentQuestion.correct_answer.trim().toLowerCase()
@@ -121,7 +128,9 @@ const SchoolBoard = () => {
       }, 2000);
     }
   };
+
   const renderQuestion = () => {
+    const currentQuestion = questions[currentQuestionIndex];
     if (currentQuestionIndex < 5) {
       return (
         <FormControl as="form" onSubmit={handleMCSubmit}>
@@ -134,7 +143,9 @@ const SchoolBoard = () => {
               ))}
             </Stack>
           </RadioGroup>
-          <Button type="submit">Submit Answer</Button>
+          <Button type="submit" mt={10}>
+            Submit Answer
+          </Button>
         </FormControl>
       );
     } else if (currentQuestionIndex < 10) {
@@ -145,7 +156,9 @@ const SchoolBoard = () => {
             value={fillAnswer}
             onChange={(e) => setFillAnswer(e.target.value)}
           />
-          <Button type="submit">Submit Answer</Button>
+          <Button type="submit" mt={10}>
+            Submit Answer
+          </Button>
         </FormControl>
       );
     } else {
@@ -161,91 +174,76 @@ const SchoolBoard = () => {
             value={fillAnswer}
             onChange={(e) => setFillAnswer(e.target.value)}
           />
-          <Button type="submit">Submit Answer</Button>
+          <Button type="submit" mt={10}>
+            Submit Answer
+          </Button>
         </FormControl>
       );
     }
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const currentImage = gameFinished ? winImage : images[currentQuestionIndex];
+  const currentQuestion = questions?.[currentQuestionIndex] || {};
+  const currentImage = gameFinished
+    ? winImage
+    : images[currentQuestionIndex] || startImage;
 
   return (
-    <Center h="100vh">
-      <Box position="relative">
-        <Image
-          src={currentImage}
-          alt="Game Image"
-          objectFit="cover"
-          transition="opacity 0.5s ease-in-out"
-        />
-        {gameFinished ? (
-          <Fade in={true}>
-            <Box
-              position="absolute"
-              top="50%"
-              left="50%"
-              transform="translate(-50%, -50%)"
-              bg="rgba(0, 0, 0, 0.6)"
-              color="white"
-              p={20}
-              borderRadius="md"
-              zIndex="1"
-              textAlign="center"
-            >
-              <Heading size="2xl" mb={4}>
-                Congratulations!
-              </Heading>
-              <Text mb={4}>
-                Thank you for helping me find my friends on the playground!
-              </Text>
-            </Box>
-          </Fade>
-        ) : answerIncorrect ? (
-          <Fade in="true">
-            <Box
-              position="absolute"
-              top="50%"
-              left="50%"
-              transform="translate(-50%, -50%)"
-              bg="rgba(0, 0, 0, 0.6)"
-              color="white"
-              p={20}
-              borderRadius="md"
-              zIndex="1"
-              textAlign="center"
-            >
-              <Heading size="2xl" mb={4}>
-                Incorrect!
-              </Heading>
-              <Text mb={4}>
-                The correct answer is {currentQuestion.correct_answer}
-              </Text>
-            </Box>
-          </Fade>
-        ) : (
-          <Fade in={showQuestion}>
-            <Box
-              position="absolute"
-              top="50%"
-              left="50%"
-              transform="translate(-50%, -50%)"
-              bg="rgba(0, 0, 0, 0.6)"
-              color="white"
-              p={20}
-              borderRadius="md"
-              zIndex="1"
-              textAlign="center"
-            >
-              <Heading size="2xl" mb={4}>
-                Question {currentQuestionIndex + 1}
-              </Heading>
-              <Text mb={4}>{currentQuestion.scenario}</Text>
-              {renderQuestion()}
-            </Box>
-          </Fade>
-        )}
-      </Box>
+    <Center>
+      <Grid
+        h="200px"
+        templateRows="repeat(1, 1fr)"
+        templateColumns="repeat(5, 1fr)"
+        w="100%"
+      >
+        <GridItem rowSpan={2} colSpan={2}>
+          <Box
+            bg="rgba(0, 0, 0, 0.6)"
+            color="white"
+            p={20}
+            textAlign="center"
+            h="100%"
+          >
+            {gameFinished ? (
+              <>
+                <Heading size="2xl" mb={4}>
+                  Congratulations!
+                </Heading>
+                <Text mb={4}>
+                  Thank you for helping me find my friends on the playground!
+                </Text>
+              </>
+            ) : answerIncorrect ? (
+              <>
+                <Heading size="2xl" mb={4}>
+                  Incorrect!
+                </Heading>
+                <Text mb={4}>
+                  The correct answer is {currentQuestion.correct_answer}
+                </Text>
+              </>
+            ) : (
+              <Fade in={showQuestion}>
+                <>
+                  <Heading size="xl" mb={10}>
+                    Question {currentQuestionIndex + 1}
+                  </Heading>
+                  <Text mb={10}>{currentQuestion.scenario}</Text>
+                  {renderQuestion()}
+                </>
+              </Fade>
+            )}
+          </Box>
+        </GridItem>
+        <GridItem colSpan={3}>
+          <Image
+            src={currentImage}
+            alt="Game Image"
+            objectFit="cover"
+            w="100%"
+            h="100%"
+          />
+        </GridItem>
+      </Grid>
     </Center>
   );
 };

@@ -23,8 +23,8 @@ function App() {
     <ChakraProvider>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<HomePage />} /> */}
-          <Route path="/" element={<SchoolGame />} />
+          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/" element={<SchoolGame />} /> */}
           <Route path="/schoolboard" element={<SchoolBoard />} />
           <Route path="/schoolwin" element={<SchoolWin />} />
           <Route path="/schoollose" element={<SchoolLose />} />
