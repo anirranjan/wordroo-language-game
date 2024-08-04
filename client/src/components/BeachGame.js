@@ -71,7 +71,7 @@ const BeachGame = () => {
           textAlign="center"
           width="100%"
         >
-          <Text>
+          <Text fontSize='2xl'>
             Surfs Up! Disco, the Panda, here. I love the beach so I took a
             spontaneous flight to {country} for a weekend vacation. I
             want to meet some party animals. Help me speak Spanish so

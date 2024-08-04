@@ -28,7 +28,6 @@ const SchoolGame = () => {
           targetLanguage: "Spanish",
         }
       );
-      //console.log(typeof res.data)
       const responseData = JSON.parse(res.data);
       console.log(responseData);
       return responseData;
@@ -38,7 +37,7 @@ const SchoolGame = () => {
   };
 
   const getAllQuestions = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const level1Questions = await getSchoolQuestions(1);
       const level2Questions = await getSchoolQuestions(2);
@@ -58,9 +57,15 @@ const SchoolGame = () => {
   };
 
   return (
-    <Center h="100vh">
+    <Center h="100vh" bgGradient="linear(to-r, yellow.100, blue.100)">
       <Box position="relative">
-        <Image src={introImg} alt="School Intro" boxSize="1000px" />
+        <Image
+          src={introImg}
+          alt="School Intro"
+          boxSize="1000px"
+          borderRadius="lg"
+          boxShadow="lg"
+        />
         <Box
           position="absolute"
           top="0%"
@@ -69,12 +74,13 @@ const SchoolGame = () => {
           bg="rgba(0, 0, 0, 0.6)"
           color="white"
           p={10}
-          borderRadius="md"
+          borderRadius="lg"
           zIndex="1"
           textAlign="center"
           width="100%"
+          boxShadow="lg"
         >
-          <Text>
+          <Text fontSize="2xl" textShadow="1px 1px #000">
             Hey guys! My name is Rusty, the fox. My family and I recently moved
             to {country} and today is my first day at school! Can you help me
             speak Spanish so that I can make friends at my new school?
@@ -87,7 +93,18 @@ const SchoolGame = () => {
           transform="translateX(-50%)"
           zIndex="1"
         >
-          <Button colorScheme="blue" size="lg" onClick={getAllQuestions} isLoading={loading}>
+          <Button
+            colorScheme="yellow"
+            onClick={getAllQuestions}
+            isLoading={loading}
+            bg="yellow.400"
+            color="black"
+            _hover={{ bg: "yellow.300" }}
+            borderRadius="full"
+            boxShadow="xl"
+            fontSize="30px"
+            sx={{ width: "300px", height: "150px" }}
+          >
             Start Game
           </Button>
         </Box>

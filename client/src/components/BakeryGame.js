@@ -74,7 +74,7 @@ const BakeryGame = () => {
           textAlign="center"
           width="100%"
         >
-          <Text>
+          <Text fontSize='2xl'>
             Good day! My name is BunBun, the Bunny. I recently moved to{" "}
             {country} to open up a bakery. I bake a variety of cakes, cookies,
             bread, and pies every day in my bakery! Can you help me speak

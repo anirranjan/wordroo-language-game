@@ -74,7 +74,7 @@ const GroceryGame = () => {
           textAlign="center"
           width="100%"
         >
-          <Text>
+          <Text fontSize="2xl">
             Greetings! My name is Merlin, the dog. I am visiting {country} on a
             work trip. I am hungry and want to cook myself a meal. Can you help
             me speak Spanish so that I can buy some things at the local grocery

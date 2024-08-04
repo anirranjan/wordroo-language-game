@@ -25,7 +25,7 @@ const Result = ({ image, message, homeRoute }) => {
           textAlign="center"
           width="100%"
         >
-          <Text>{message}</Text>
+          <Text fontSize='2xl'>{message}</Text>
         </Box>
         <Box
           position="absolute"
@@ -34,7 +34,7 @@ const Result = ({ image, message, homeRoute }) => {
           transform="translateX(-50%)"
           zIndex="1"
         >
-          <Button colorScheme="blue" size="lg" onClick={displayHome}>
+          <Button colorScheme="blue" size='lg' onClick={displayHome}>
             Home
           </Button>
         </Box>
