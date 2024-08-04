@@ -1,24 +1,47 @@
 import axios from "axios";
 import introImg from "../GroceryStoreTheme/1 Grocery Intro.jpeg";
-import { Text, Image, Button, Box, Center } from "@chakra-ui/react";
+import {
+  Text,
+  Image,
+  Button,
+  Center,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const GroceryGame = () => {
+const GroceryGame = ({ language }) => {
   const navigate = useNavigate();
   const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     axios
       .post("http://localhost:3001/getLocation", {
-        targetLanguage: "Spanish",
+        targetLanguage: language,
       })
       .then((response) => {
-        const resData = JSON.parse(response.data);
-        setCountry(resData);
+        setCountry(response.data); // Assuming res.data is an object/string directly from the response
+      })
+      .catch((error) => {
+        console.error("Error fetching location:", error);
       });
   }, []);
+
+  useEffect(() => {
+    onOpen(); // Automatically opens the modal when the component mounts
+  }, [onOpen]);
+
+  const displayHome = () => {
+    navigate("/");
+  };
 
   const getGroceryQuestions = async (level) => {
     try {
@@ -28,12 +51,10 @@ const GroceryGame = () => {
           targetLanguage: "Spanish",
         }
       );
-      //console.log(typeof res.data)
-      const responseData = JSON.parse(res.data);
-      console.log(responseData);
-      return responseData;
+      return res.data; // Assuming res.data is already parsed as an object/array
     } catch (error) {
       console.error("getGroceryQuestions | Error:", error);
+      return []; // Return an empty array in case of an error
     }
   };
 
@@ -54,50 +75,36 @@ const GroceryGame = () => {
       navigate("/storeboard", { state: { questions: allQuestions } });
     } catch (error) {
       console.error("getAllQuestions | Error:", error);
+    } finally {
+      setLoading(false); // Stop the loading indicator once the operation is complete
     }
   };
 
   return (
-    <Center h="100vh">
-      <Box position="relative">
-        <Image src={introImg} alt="Grocery Intro" boxSize="1000px" />
-        <Box
-          position="absolute"
-          top="0%"
-          left="50%"
-          transform="translateX(-50%)"
-          bg="rgba(0, 0, 0, 0.6)"
-          color="white"
-          p={10}
-          borderRadius="md"
-          zIndex="1"
-          textAlign="center"
-          width="100%"
-        >
-          <Text>
-            Greetings! My name is Merlin, the dog. I am visiting {country} on a
-            work trip. I am hungry and want to cook myself a meal. Can you help
-            me speak Spanish so that I can buy some things at the local grocery
-            store?
-          </Text>
-        </Box>
-        <Box
-          position="absolute"
-          bottom="10%"
-          left="50%"
-          transform="translateX(-50%)"
-          zIndex="1"
-        >
-          <Button
-            colorScheme="blue"
-            size="lg"
-            onClick={getAllQuestions}
-            isLoading={loading}
-          >
-            Start Game
-          </Button>
-        </Box>
-      </Box>
+    <Center position="relative">
+      <Modal size="xl" isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Hello!</ModalHeader>
+          <ModalBody>
+            <Text mb={4}>
+              Greetings! My name is Merlin, the dog. I am visiting {country} on
+              a work trip. I am hungry and want to cook myself a meal. Can you
+              help me speak {language} so that I can buy some things at the
+              local grocery store?
+            </Text>
+            <Image src={introImg} alt="Result Image" />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={displayHome}>
+              Home
+            </Button>
+            <Button variant="ghost" onClick={onClose} isLoading={loading}>
+              Start
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Center>
   );
 };

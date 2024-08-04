@@ -20,6 +20,9 @@ import {
   StatNumber,
 } from "@chakra-ui/react";
 import startImage from "../SchoolTheme/languageschool-start.png";
+import SchoolLose from "./SchoolLose";
+import SchoolGame from "./SchoolGame";
+import SchoolWin from "./SchoolWin";
 import image1 from "../SchoolTheme/languageschool-1.png";
 import image2 from "../SchoolTheme/languageschool-2.png";
 import image3 from "../SchoolTheme/languageschool-3.png";
@@ -44,7 +47,7 @@ import winImage from "../SchoolTheme/languageschool-20.png";
 const SchoolBoard = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { questions } = location.state || {};
+  const { questions, language } = location.state;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showQuestion, setShowQuestion] = useState(true);
@@ -52,6 +55,11 @@ const SchoolBoard = () => {
   const [answer, setAnswer] = useState("");
   const [fillAnswer, setFillAnswer] = useState("");
   const [answerIncorrect, setAnswerIncorrect] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const incrementScore = () => {
+    setScore(score + 100);
+  };
 
   const images = [
     startImage,
@@ -85,9 +93,9 @@ const SchoolBoard = () => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
         setGameFinished(true);
-        setTimeout(() => {
-          navigate("/schoolwin");
-        }, 2000);
+        // setTimeout(() => {
+        //   navigate("/schoolwin");
+        // }, 2000);
       }
 
       setTimeout(() => {
@@ -101,13 +109,14 @@ const SchoolBoard = () => {
     const currentQuestion = questions[currentQuestionIndex];
     if (answer === currentQuestion.correct_answer) {
       console.log("Correct answer");
+      incrementScore();
       handleNextQuestion();
     } else {
       console.log("Incorrect answer");
       setAnswerIncorrect(true);
-      setTimeout(() => {
-        navigate("/schoollose");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/schoollose");
+      // }, 2000);
     }
   };
 
@@ -119,13 +128,14 @@ const SchoolBoard = () => {
       currentQuestion.correct_answer.trim().toLowerCase()
     ) {
       console.log("Correct answer");
+      incrementScore();
       handleNextQuestion();
     } else {
       console.log(currentQuestion.correct_answer);
       setAnswerIncorrect(true);
-      setTimeout(() => {
-        navigate("/schoollose");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/schoollose");
+      // }, 2000);
     }
   };
 
@@ -133,51 +143,57 @@ const SchoolBoard = () => {
     const currentQuestion = questions[currentQuestionIndex];
     if (currentQuestionIndex < 5) {
       return (
-        <FormControl as="form" onSubmit={handleMCSubmit}>
-          <RadioGroup onChange={setAnswer} value={answer}>
-            <Stack>
-              {currentQuestion.answer_choices.map((choice, index) => (
-                <Radio key={index} value={choice}>
-                  {choice}
-                </Radio>
-              ))}
-            </Stack>
-          </RadioGroup>
-          <Button type="submit" mt={10}>
-            Submit Answer
-          </Button>
-        </FormControl>
+        <>
+          <FormControl as="form" onSubmit={handleMCSubmit}>
+            <RadioGroup onChange={setAnswer} value={answer}>
+              <Stack>
+                {currentQuestion.answer_choices.map((choice, index) => (
+                  <Radio key={index} value={choice}>
+                    {choice}
+                  </Radio>
+                ))}
+              </Stack>
+            </RadioGroup>
+            <Button type="submit" mt={10}>
+              Submit Answer
+            </Button>
+          </FormControl>
+        </>
       );
     } else if (currentQuestionIndex < 10) {
       return (
-        <FormControl as="form" onSubmit={handleShortSubmit}>
-          <Input
-            placeholder="Your answer"
-            value={fillAnswer}
-            onChange={(e) => setFillAnswer(e.target.value)}
-          />
-          <Button type="submit" mt={10}>
-            Submit Answer
-          </Button>
-        </FormControl>
+        <>
+          <FormControl as="form" onSubmit={handleShortSubmit}>
+            <Input
+              placeholder="Your answer"
+              value={fillAnswer}
+              onChange={(e) => setFillAnswer(e.target.value)}
+            />
+            <Button type="submit" mt={10}>
+              Submit Answer
+            </Button>
+          </FormControl>
+        </>
       );
     } else {
       return (
-        <FormControl as="form" onSubmit={handleShortSubmit}>
-          <Stack>
-            {currentQuestion.answer_choices.map((choice, index) => (
-              <Text key={index}>{choice}</Text>
-            ))}
-          </Stack>
-          <Input
-            placeholder="Your answer"
-            value={fillAnswer}
-            onChange={(e) => setFillAnswer(e.target.value)}
-          />
-          <Button type="submit" mt={10}>
-            Submit Answer
-          </Button>
-        </FormControl>
+        <>
+          <FormControl as="form" onSubmit={handleShortSubmit}>
+            <Stack>
+              {currentQuestion.answer_choices.map((choice, index) => (
+                <Text key={index}>{choice}</Text>
+              ))}
+            </Stack>
+            <Input
+              placeholder="Your answer"
+              value={fillAnswer}
+              onChange={(e) => setFillAnswer(e.target.value)}
+            />
+            <Button type="submit" mt={10}>
+              Submit Answer
+            </Button>
+          </FormControl>
+        </>
       );
     }
   };
@@ -189,6 +205,9 @@ const SchoolBoard = () => {
 
   return (
     <Center>
+      <Box position="absolute" top="0" left="0" w="100%" zIndex="2">
+        <SchoolGame language={language} />
+      </Box>
       <Grid
         h="200px"
         templateRows="repeat(1, 1fr)"
@@ -211,6 +230,7 @@ const SchoolBoard = () => {
                 <Text mb={4}>
                   Thank you for helping me find my friends on the playground!
                 </Text>
+                <SchoolWin />
               </>
             ) : answerIncorrect ? (
               <>
@@ -220,6 +240,7 @@ const SchoolBoard = () => {
                 <Text mb={4}>
                   The correct answer is {currentQuestion.correct_answer}
                 </Text>
+                <SchoolLose />
               </>
             ) : (
               <Fade in={showQuestion}>
@@ -234,7 +255,7 @@ const SchoolBoard = () => {
             )}
           </Box>
         </GridItem>
-        <GridItem colSpan={3}>
+        <GridItem colSpan={3} position="relative">
           <Image
             src={currentImage}
             alt="Game Image"
@@ -242,6 +263,18 @@ const SchoolBoard = () => {
             w="100%"
             h="100%"
           />
+          <Stat position="absolute" top="10px" right="10px" zIndex="1">
+            <Box
+              border="2px"
+              backgroundColor="rgba(255, 255, 255, 0.8)"
+              borderRadius="md"
+              padding="4"
+              width="200px"
+            >
+              <StatLabel color="black">Current Score</StatLabel>
+              <StatNumber color="black">{score}</StatNumber>
+            </Box>
+          </Stat>
         </GridItem>
       </Grid>
     </Center>

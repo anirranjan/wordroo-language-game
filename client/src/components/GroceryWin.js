@@ -5,6 +5,7 @@ const GroceryWin = () => {
   return (
     <Result
       image={winImage}
+      heading="Hooray!"
       message="I can go home and make myself a nice meal now. Thank you for helping me find everything that I was looking for!"
       homeRoute="/grocerygame"
     />

@@ -1,16 +1,37 @@
-import { Text, Image, Button, Box, Center } from "@chakra-ui/react";
+import {
+  Text,
+  Image,
+  Button,
+  Box,
+  Center,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 
-const Result = ({ image, message, homeRoute }) => {
+const Result = ({ image, heading, message, homeRoute }) => {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [size, setSize] = React.useState("md");
 
   const displayHome = () => {
     navigate(homeRoute);
   };
 
+  useEffect(() => {
+    onOpen();
+  }, [onOpen]);
+
   return (
     <Center h="100vh">
-      <Box position="relative">
+      {/* <Box position="relative">
         <Image src={image} alt="image result" boxSize="1000px" />
         <Box
           position="absolute"
@@ -38,7 +59,22 @@ const Result = ({ image, message, homeRoute }) => {
             Home
           </Button>
         </Box>
-      </Box>
+      </Box> */}
+      <Modal size="xl" isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{heading}</ModalHeader>
+          <ModalBody>
+            <Text mb={4}>{message}</Text>
+            <Image src={image} alt="Result Image" />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={displayHome}>
+              Home
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Center>
   );
 };

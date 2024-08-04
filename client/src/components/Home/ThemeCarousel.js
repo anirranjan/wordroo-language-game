@@ -67,21 +67,122 @@ export default function ThemeCarousel({ selectedLanguage }) {
     }
   };
 
-  const getAllQuestions = async (link) => {
-    setLoading(true);
+  const getBakeryQuestions = async (level) => {
     try {
-      const level1Questions = await getSchoolQuestions(1);
-      const level2Questions = await getSchoolQuestions(2);
-      const level3Questions = await getSchoolQuestions(3);
-      const level4Questions = await getSchoolQuestions(4);
+      const res = await axios.post(
+        `http://localhost:3001/bakerylevel${level}`,
+        {
+          targetLanguage: selectedLanguage,
+        }
+      );
+      //console.log(typeof res.data)
+      const responseData = JSON.parse(res.data);
+      console.log(responseData);
+      return responseData;
+    } catch (error) {
+      console.error("getBakeryQuestions | Error:", error);
+    }
+  };
 
-      const allQuestions = [
-        ...level1Questions,
-        ...level2Questions,
-        ...level3Questions,
-        ...level4Questions,
-      ];
-      navigate(link, { state: { questions: allQuestions } });
+  const getGroceryQuestions = async (level) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:3001/grocerylevel${level}`,
+        {
+          targetLanguage: selectedLanguage,
+        }
+      );
+      //console.log(typeof res.data)
+      const responseData = JSON.parse(res.data);
+      console.log(responseData);
+      return responseData;
+    } catch (error) {
+      console.error("getGroceryQuestions | Error:", error);
+    }
+  };
+
+  const getBeachQuestions = async (level) => {
+    try {
+      const res = await axios.post(`http://localhost:3001/beachlevel${level}`, {
+        targetLanguage: selectedLanguage,
+      });
+      //console.log(typeof res.data)
+      const responseData = JSON.parse(res.data);
+      console.log(responseData);
+      return responseData;
+    } catch (error) {
+      console.error("getBeachQuestions | Error:", error);
+    }
+  };
+
+  const getAllQuestions = async (theme, link) => {
+    setLoading(true);
+    let allQuestions = [];
+    console.log("Theme: " + theme);
+    try {
+      if (theme === "School Theme") {
+        const level1Questions = await getSchoolQuestions(1);
+        const level2Questions = await getSchoolQuestions(2);
+        const level3Questions = await getSchoolQuestions(3);
+        const level4Questions = await getSchoolQuestions(4);
+
+        allQuestions = [
+          ...level1Questions,
+          ...level2Questions,
+          ...level3Questions,
+          ...level4Questions,
+        ];
+        navigate("/schoolboard", {
+          state: { questions: allQuestions, language: selectedLanguage },
+        });
+      } else if (theme === "Grocery Theme") {
+        const level1Questions = await getGroceryQuestions(5);
+        const level2Questions = await getGroceryQuestions(6);
+        const level3Questions = await getGroceryQuestions(7);
+        const level4Questions = await getGroceryQuestions(8);
+
+        allQuestions = [
+          ...level1Questions,
+          ...level2Questions,
+          ...level3Questions,
+          ...level4Questions,
+        ];
+        console.log("All Question:");
+        console.log(allQuestions);
+        navigate("/storeboard", {
+          state: { questions: allQuestions, language: selectedLanguage },
+        });
+      } else if (theme === "Bakery Theme") {
+        const level1Questions = await getBakeryQuestions(9);
+        const level2Questions = await getBakeryQuestions(10);
+        const level3Questions = await getBakeryQuestions(11);
+        const level4Questions = await getBakeryQuestions(12);
+
+        allQuestions = [
+          ...level1Questions,
+          ...level2Questions,
+          ...level3Questions,
+          ...level4Questions,
+        ];
+        navigate("/bakeryboard", {
+          state: { questions: allQuestions, language: selectedLanguage },
+        });
+      } else {
+        const level1Questions = await getBeachQuestions(13);
+        const level2Questions = await getBeachQuestions(14);
+        const level3Questions = await getBeachQuestions(15);
+        const level4Questions = await getBeachQuestions(16);
+
+        allQuestions = [
+          ...level1Questions,
+          ...level2Questions,
+          ...level3Questions,
+          ...level4Questions,
+        ];
+        navigate("/beachboard", {
+          state: { questions: allQuestions, language: selectedLanguage },
+        });
+      }
     } catch (error) {
       console.error("getAllQuestions | Error:", error);
     }
@@ -188,7 +289,7 @@ export default function ThemeCarousel({ selectedLanguage }) {
                     <Button
                       variant="solid"
                       colorScheme="blue"
-                      onClick={() => getAllQuestions(card.link)}
+                      onClick={() => getAllQuestions(card.theme, card.link)}
                       isLoading={loading}
                     >
                       Start

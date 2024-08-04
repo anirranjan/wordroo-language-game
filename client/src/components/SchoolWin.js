@@ -5,6 +5,7 @@ const SchoolWin = () => {
   return (
     <Result
       image={winImage}
+      heading="Hooray!"
       message="Thank you for helping me find my new friends on the playground!"
       homeRoute="/"
     />

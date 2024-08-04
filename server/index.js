@@ -27,10 +27,10 @@ let model = genAI.getGenerativeModel({
 
 app.post("/getLocation", async (req, res) => {
   const { targetLanguage } = req.body;
-  let prompt = `Can you tell me one country that speaks ${targetLanguage}? Return as a single string.`
-  let result = await model.generateContent(prompt)
-  res.json(result.response.text())
-})
+  let prompt = `Can you tell me one country that speaks ${targetLanguage}? Return as a single string.`;
+  let result = await model.generateContent(prompt);
+  res.json(result.response.text());
+});
 
 app.post("/schoollevel1", async (req, res) => {
   const { targetLanguage } = req.body;
@@ -97,7 +97,7 @@ app.post("/grocerylevel5", async (req, res) => {
   const { targetLanguage } = req.body;
   let prompt = `Generate 5 questions for a language learning game that takes place at a grocery store, where the target language is ${targetLanguage}. The first two questions should be easy, the next two questions should be medium, and the last question should be hard. The question should ask to translate a simple English sentence into ${targetLanguage}.
     Using this JSON schema:
-        Question = {{"scenario": "string", "correct_answer": "string", "correct_answer_english": "string"}}
+        Question = {{"scenario": "string", "answer_choices": ["string"], "correct_answer": "string", "correct_answer_english": "string"}}
     Return a list[Question]`;
   let result = await model.generateContent(prompt);
   res.json(result.response.text());

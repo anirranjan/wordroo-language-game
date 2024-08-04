@@ -5,6 +5,7 @@ const BakeryWin = () => {
   return (
     <Result
       image={winImage}
+      heading="Hooray!"
       message="The entire shop is sold out! Thank you for helping me!"
       homeRoute="/bakerygame"
     />
